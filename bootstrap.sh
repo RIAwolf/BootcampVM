@@ -36,6 +36,6 @@ sudo /etc/init.d/apache2 restart
 echo "-- Install phpMyAdmin --"
 wget -k https://files.phpmyadmin.net/phpMyAdmin/4.0.10.11/phpMyAdmin-4.0.10.11-english.tar.gz
 sudo tar -xzvf phpMyAdmin-4.0.10.11-english.tar.gz -C /var/www/
-suro rm -r /var/www/html
+sudo rm -r /var/www/html
 sudo rm phpMyAdmin-4.0.10.11-english.tar.gz
 sudo mv /var/www/phpMyAdmin-4.0.10.11-english/ /var/www/html
