@@ -39,3 +39,33 @@ sudo tar -xzvf phpMyAdmin-4.0.10.11-english.tar.gz -C /var/www/
 sudo rm -r /var/www/html
 sudo rm phpMyAdmin-4.0.10.11-english.tar.gz
 sudo mv /var/www/phpMyAdmin-4.0.10.11-english/ /var/www/html
+
+echo "-- Creating virtual hosts --"
+sudo ln -fs /vagrant/public/ /var/www/app
+sudo rm /etc/apache2/sites-available/default.conf
+sudo touch /etc/apache2/sites-available/default.conf
+cat << EOF | sudo tee -a /etc/apache2/sites-available/default.conf
+
+Listen 80
+Listen 8080
+
+<VirtualHost *:80>
+    DocumentRoot /var/www
+</VirtualHost>
+
+#Default rules for directory
+<Directory "/vagrant/public_html/">
+    AllowOverride All
+</Directory>
+
+#Project domains
+<VirtualHost *:8080>
+    DocumentRoot /vagrant/public_html
+</VirtualHost>
+
+EOF
+sudo a2dissite default.conf
+sudo a2ensite default.conf
+
+echo "-- Restart Apache --"
+sudo /etc/init.d/apache2 restart
