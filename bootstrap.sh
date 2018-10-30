@@ -41,7 +41,6 @@ sudo rm phpMyAdmin-4.0.10.11-english.tar.gz
 sudo mv /var/www/phpMyAdmin-4.0.10.11-english/ /var/www/html
 
 echo "-- Creating virtual hosts --"
-sudo ln -fs /vagrant/public/ /var/www/app
 sudo rm /etc/apache2/sites-available/default.conf
 sudo touch /etc/apache2/sites-available/default.conf
 cat << EOF | sudo tee -a /etc/apache2/sites-available/default.conf
@@ -54,9 +53,12 @@ Listen 8080
 </VirtualHost>
 
 #Default rules for directory
-<Directory "/vagrant/public_html/">
-    AllowOverride All
+<Directory /vagrant/public_html>
+        Options Indexes FollowSymLinks
+        AllowOverride None
+        Require all granted
 </Directory>
+
 
 #Project domains
 <VirtualHost *:8080>
